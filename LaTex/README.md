@@ -1,4 +1,4 @@
 #LaTex
-vim test.tex
-latex test.tex
-pdflatex test.tex
+1. vim test.tex
+2. latex test.tex
+3. pdflatex test.tex
