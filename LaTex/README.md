@@ -1,4 +1,4 @@
-#LaTex
+#LaTex Tutorial
 ```
 vim test.tex
 latex test.tex
