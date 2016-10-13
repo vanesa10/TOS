@@ -5,6 +5,7 @@ python data.py | awk -F " : " '{print $2}' > git.txt
 readarray git < git.txt
 rm git.txt
 el=${#nrp[@]}
+cd git
 mkdir $1":"$2
 cd $1":"$2
 for (( i=0;i<el;i++)); do
@@ -12,11 +13,15 @@ for (( i=0;i<el;i++)); do
   la=$la-1
   git[$i]=${git[$i]:0:$la}
   nrp[$i]=${nrp[$i]:0:8}
-  echo https://github.com/${git[$i]}/${nrp[$i]}
+  #echo git
+  #echo https://github.com/${git[$i]}/${nrp[$i]}
   git clone https://github.com/${git[$i]}/${nrp[$i]}
   if [ -d ${nrp[$i]} ]; then
     cd ${nrp[$i]}
-    jum=$(git log --pretty=format:"%ad" --since=$1 --until=$2 | grep -c ".*")
+    aft="$1T00:00:00-00:00"
+    bef="$2T23:59:59-59:59"
+    jum=$(git log --pretty=format:"%ad" --since=$aft --until=$bef | grep -c ".*")
+    #jum=$(git log --pretty=format:"%ad" --since=$1 --until=$2 | grep -c ".*")
     cd ../
     nilai=0
     if [ $jum -gt 4 ];then
@@ -30,7 +35,7 @@ for (( i=0;i<el;i++)); do
     elif [ $jum -eq 1 ]; then
         nilai=60
     fi
-    echo ${nrp[$i]}-$nilai
-    echo ${nrp[$i]}-$nilai >> ../$1":"$2.txt
+    echo ${nrp[$i]}-$nilai-$jum
+    echo ${nrp[$i]}-$nilai-$jum >> ../$1":"$2.txt
   fi
 done
